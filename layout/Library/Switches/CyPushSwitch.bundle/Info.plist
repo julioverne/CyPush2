@@ -1,0 +1,6 @@
+{
+	CFBundleDisplayName = "CyPush";
+	CFBundleExecutable = "CyPushSwitch";
+	CFBundleIdentifier = "com.julioverne.cypushswitch";
+	NSPrincipalClass = "CyPushSB";
+}

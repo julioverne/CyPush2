@@ -1,0 +1,13 @@
+Package: com.julioverne.cypush2
+Name: CyPush2
+Author: julioverne
+Version: 1.0
+Depends: firmware (>= 7.0), firmware (<< 11.0), cydia, mobilesubstrate, preferenceloader
+Conflicts: com.julioverne.cypush
+Architecture: iphoneos-arm
+Description: Cydia Push Notifications Background
+Homepage: http://twitter.com/ijulioverne
+Maintainer: Julio
+Section: Tweaks
+Icon: file:///Library/PreferenceBundles/CyPushSettings.bundle/icon@2x.png
+Depiction: http://julioverne.github.io/description.html?id=com.julioverne.cypush2

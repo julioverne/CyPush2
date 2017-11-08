@@ -1,0 +1,9 @@
+#!/bin/sh
+rm -rf //private/var/mobile/Library/Preferences/com.julioverne.cypush.upgrades.plist
+echo "Reseted cached showed notifications prefs..."
+echo
+echo "RESPRING YOUR DEVICE !!!"
+echo "RESPRING YOUR DEVICE !!!"
+echo "RESPRING YOUR DEVICE !!!"
+echo
+exit 0
