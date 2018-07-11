@@ -794,13 +794,14 @@ static void notifyCyPushNeedKilled(CFNotificationCenterRef center, void *observe
 	@autoreleasepool {
 		SBApplicationController* controller = [%c(SBApplicationController) sharedInstance];
 		SBApplication* sbapp = [controller applicationWithBundleIdentifier:@"com.saurik.Cydia"];
-		if(sbapp&&[sbapp isRunning]) {
+		BOOL isAppRunning = [sbapp respondsToSelector:@selector(isRunning)]?[sbapp isRunning]:[[controller runningApplications] containsObject:sbapp];
+		if(sbapp&&isAppRunning) {
 			FBApplicationProcess* SBProc = MSHookIvar<FBApplicationProcess *>(sbapp, "_process");
 			[SBProc killForReason:1 andReport:NO withDescription:nil completion:nil];
 			
 			//void (*BKSTerminateApplicationForReasonAndReportWithDescription)(NSString *, int, bool, NSString *) = (void (*)(NSString *, int, bool, NSString *))(dlsym(RTLD_DEFAULT, "BKSTerminateApplicationForReasonAndReportWithDescription"));
 			//BKSTerminateApplicationForReasonAndReportWithDescription(@"com.saurik.Cydia", 5, 1, NULL);
-			NSLog(@"*** CyPush Killed... //isRunning:%@", @([sbapp isRunning]));
+			NSLog(@"*** CyPush Killed...");
 			return;
 		}
 		NSLog(@"*** CyPush No Process to be Killed... //isRunning:%@", @([sbapp isRunning]));
@@ -816,6 +817,9 @@ static void notifyCyPushLaunched(CFNotificationCenterRef center, void *observer,
 		NSLog(@"*** CyPush Launched...");
 	}
 }
+
+extern "C" int SBSLaunchApplicationWithIdentifier(CFStringRef identifier, Boolean suspended);
+
 static void cyPushCheckRun(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo)
 {
 	@try{
@@ -827,11 +831,15 @@ static void cyPushCheckRun(CFNotificationCenterRef center, void *observer, CFStr
 			NSLog(@"*** CyPush Execution...");
 			SBApplicationController* controller = [%c(SBApplicationController) sharedInstance];
 			SBApplication* sbapp = [controller applicationWithBundleIdentifier:@"com.saurik.Cydia"];
-			if(sbapp&&[sbapp isRunning]) {
+			BOOL isAppRunning = [sbapp respondsToSelector:@selector(isRunning)]?[sbapp isRunning]:[[controller runningApplications] containsObject:sbapp];
+			if(sbapp&&isAppRunning) {
 				NSLog(@"*** PASS> CyPush is Running...");
 				canSystemSleep = YES;
 			} else {
-				[[UIApplication sharedApplication] launchApplicationWithIdentifier:@"com.saurik.Cydia" suspended:YES];
+				//[[UIApplication sharedApplication] launchApplicationWithIdentifier:@"com.saurik.Cydia" suspended:YES];
+				dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+					SBSLaunchApplicationWithIdentifier(CFSTR("com.saurik.Cydia"), YES);
+				});
 			}
 		}
 	}

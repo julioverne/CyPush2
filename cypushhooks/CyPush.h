@@ -112,7 +112,7 @@ typedef NS_OPTIONS(NSUInteger, ProcessAssertionFlags)
 
 @interface SBApplication : NSObject
 @property(readonly, nonatomic) int pid;
-- (BOOL)isRunning;
+- (BOOL)isRunning; // <= iOS 10 
 - (NSString *)bundleIdentifier;
 - (void)clearDeactivationSettings;
 - (FBScene *)mainScene;
@@ -136,6 +136,7 @@ typedef NS_OPTIONS(NSUInteger, ProcessAssertionFlags)
 
 @interface SBApplicationController : NSObject
 - (SBApplication*)applicationWithBundleIdentifier:(NSString *)identifier;
+- (NSArray*)runningApplications; // >= iOS 9
 + (instancetype)sharedInstance;
 @end
 

@@ -1,4 +1,3 @@
-#import <vector>
 #import <notify.h>
 #import <Social/Social.h>
 #import <prefs.h>

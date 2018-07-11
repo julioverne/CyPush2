@@ -166,6 +166,7 @@ __attribute__((constructor)) int main(int argc, char **argv, char **envp)
 			[MutInfo writeToFile:filePath atomically:YES];
 			[fileManager setAttributes:attributes ofItemAtPath:filePath error:&error];
 			if(!error) {
+				system("su mobile -c uicache");
 				system("killall backboardd SpringBoard");
 			}
 		}

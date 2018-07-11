@@ -11,6 +11,3 @@ cypushchk_CFLAGS = -fobjc-arc
 cypushchk_CODESIGN_FLAGS="-Sen.plist"
 
 include $(THEOS_MAKE_PATH)/tool.mk
-
-
-
